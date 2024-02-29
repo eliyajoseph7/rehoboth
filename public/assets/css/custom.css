@@ -6,3 +6,25 @@
     --tw-bg-opacity: 1;
     background-color: rgb(243 244 246 / var(--tw-bg-opacity)) !important;
 }
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+    cursor: pointer !important;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    /* background: transparent; */
+    background: rgb(219, 230, 239);
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(210, 208, 208);
+}

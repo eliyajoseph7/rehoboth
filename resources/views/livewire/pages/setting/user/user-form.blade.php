@@ -1,4 +1,4 @@
-<div class="bg-white rounded-lg shadow-md relative">
+<div class="bg-white rounded-lg shadow-md relative min-w-4xl">
     <div class="pb-1"></div>
     <div class="text-center bg-red-50 rounded-xl py-5 mx-2 font-bold text-gray-600">User Form</div>
     @if ($name)
@@ -14,80 +14,82 @@
         </div>
     @endif
     <form wire:submit.prevent="{{ $action }}User">
-        <div class="p-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
-            <div class="grid grid-flow-col grid-cols-2 gap-2 w-full col-span-full">
-                <div class="">
-                    <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name <span
+        <div class="p-3">
+            <div class="overflow-y-auto max-h-[300px] grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6 px-1">
+                <div class="grid grid-flow-col grid-cols-1 w-full col-span-full">
+                    <div class="">
+                        <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name <span
+                                class="text-red-500">*</span></label>
+                        <div class="mt-2">
+                            <div
+                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full">
+                                <input type="text" id="name" wire:model.live="name"
+                                    class="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                    placeholder="Enter new user">
+                            </div>
+                            <div class="text-red-500 text-sm">
+                                @error('name')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-flow-col grid-cols-1 w-full col-span-full">
+                    <div class="">
+                        <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone <span
+                                class="text-red-500">*</span></label>
+                        <div class="mt-2">
+                            <div
+                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full">
+                                <input type="tel" id="phone" wire:model.live="phone"
+                                    class="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                    placeholder="0XXXXXXXXX">
+                            </div>
+                            <div class="text-red-500 text-sm">
+                                @error('phone')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="grid grid-flow-row w-full col-span-full">
+                    <label for="image" class="block text-sm font-medium leading-6 text-gray-900">Image (5Mb)<span
                             class="text-red-500">*</span></label>
                     <div class="mt-2">
                         <div
                             class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full">
-                            <input type="text" id="name" wire:model.live="name"
-                                class="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                placeholder="Enter new user">
+                            <input type="file" id="image" wire:model.live="image" accept="image/*"
+                                class="block w-full border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
                         </div>
                         <div class="text-red-500 text-sm">
-                            @error('name')
+                            @error('image')
                                 <span class="error">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="flex mt-3 mb-3">
+                            @if ($image && !is_string($image))
+                                <div class="w-32 h-32">
+                                    <img src="{{ $image->temporaryUrl() }}"
+                                        class="w-full h-full rounded-lg object-top">
+                                </div>
+                            @endif
+                            @if ($action == 'update' && is_string($image))
+                                <div class="w-32 h-32">
+                                    <img src="{{ $image }}" onerror="this.onerror=null;this.src='{{ asset('assets/images/user.jpg') }}';"
+                                        class="w-full h-full rounded-lg object-top">
+                                </div>
+                            @endif
+                        </div>
+    
                     </div>
                 </div>
-                <div class="">
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-                    <div class="mt-2">
-                        <div
-                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full">
-                            <input type="email" id="email" wire:model.live="email"
-                                class="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                placeholder="user@example.com">
-                        </div>
-                        <div class="text-red-500 text-sm">
-                            @error('email')
-                                <span class="error">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="grid grid-flow-col grid-cols-2 gap-2 w-full col-span-full">
-                <div class="">
-                    <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone <span
-                            class="text-red-500">*</span></label>
-                    <div class="mt-2">
-                        <div
-                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full">
-                            <input type="tel" id="phone" wire:model.live="phone"
-                                class="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                placeholder="0XXXXXXXXX">
-                        </div>
-                        <div class="text-red-500 text-sm">
-                            @error('phone')
-                                <span class="error">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password
-                        {{-- <span class="text-red-500">*</span></label> --}}
-                    <div class="mt-2">
-                        <div
-                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full">
-                            <input type="password" id="password" wire:model.live="password"
-                                class="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                placeholder="Enter initial password">
-                        </div>
-                        <div class="text-red-500 text-sm">
-                            @error('password')
-                                <span class="error">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
-            <button type="submit" class="bg-red-500 hover:bg-red-600 col-span-full p-2 rounded-lg text-white">
+            <button type="submit" class="block w-full bg-red-500 hover:bg-red-600 col-span-full p-2 rounded-lg text-white">
                 <div wire:loading>
                     <i class="fa fa-spinner fa-spin"></i>
                 </div>

@@ -2,15 +2,15 @@
 
 namespace App\Livewire\Pages\Setting\User;
 
-use App\Models\Role;
 use App\Models\Staff;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Rule;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
 
 class UserForm extends ModalComponent
 {
+    use WithFileUploads;
     public $action = 'add';
     public $id;
 
@@ -22,8 +22,6 @@ class UserForm extends ModalComponent
     #[Rule('required')]
     public $phone;
 
-    // #[Rule('required')]
-    public $password;
 
     protected $listeners = [
         'update_user' => 'editUser'
@@ -42,6 +40,19 @@ class UserForm extends ModalComponent
         $user->name = $this->name;
         // $user->image = $this->image;
         $user->phone = $this->phone;
+        $fileNameToSave = null;
+        if($this->image != null) {
+            $this->file = (object)$this->image;
+
+            $file = $this->file->getClientOriginalName();
+            $extension = $this->file->getClientOriginalExtension();
+            $fileName = pathinfo($file, PATHINFO_FILENAME)."-".date('Ymd-His').".".$extension;
+            $this->file->storeAs('staffs', $fileName, 'public');
+            
+            $fileNameToSave = '/storage/staffs/'.$fileName;
+        }
+
+        $user->image == $fileNameToSave;
         $user->save();
 
         $this->resetForm();
@@ -56,7 +67,7 @@ class UserForm extends ModalComponent
         $qs = Staff::find($id);
         $this->id = $id;
         $this->name = $qs->name;
-        // $this->image = $qs->image;
+        $this->image = $qs->image;
         $this->phone = $qs->phone;
         
     }
@@ -67,9 +78,32 @@ class UserForm extends ModalComponent
 
         $user = Staff::find($this->id);
         $user->name = $this->name;
-        // $user->image = $this->image;
         $user->phone = $this->phone;
 
+        $fileNameToSave = null;
+        if($this->image != null) {
+            $this->file = (object)$this->image;
+            try {
+                $file = $this->file->getClientOriginalName();
+                $extension = $this->file->getClientOriginalExtension();
+                $fileName = pathinfo($file, PATHINFO_FILENAME)."-".date('Ymd-His').".".$extension;
+
+                // find the previous stored image and replace in in storage
+                $image = Staff::find($this->id)->image;
+                if($image) {
+                    $imgname = str_replace(substr($image, 0, 9), '', $image);
+                    $check = Storage::disk('public')->exists($imgname);
+                    if($check) {
+                        Storage::disk('public')->delete($imgname);
+                    }
+                }
+                $this->file->storeAs('staffs', $fileName, 'public');
+                
+                $fileNameToSave = '/storage/staffs/'.$fileName;
+            } catch (\Throwable $e) {
+            }
+        }
+        $user->image = $fileNameToSave;
         $user->save();
 
         $this->resetForm();

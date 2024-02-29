@@ -61,7 +61,13 @@
                                                         class="px-4 py-3 w-[50px] font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                         {{ $loop->iteration }}</th>
                                                     <td class="px-4 py-3 whitespace-nowrap">
-                                                        {{ $dt->email }}</td>
+                                                        <div class="w-24 h-20 cursor-pointer"
+                                                            wire:click="$dispatch('openModal', { component: 'pages.issues.view_issue_image', arguments: {image: '{{ $dt->image }}', subject: '{{ $dt->subject }}' }})">
+                                                            <img src="{{ $dt->image }}"
+                                                                onerror="this.onerror=null;this.src='{{ asset('assets/images/user.jpg') }}';"
+                                                                class="object-cover w-full h-full rounded-lg img-thumbnail cursor-pointer hover:grayscale">
+                                                        </div>
+                                                    </td>
                                                     <td class="px-4 py-3 whitespace-nowrap">
                                                         {{ $dt->name }}</td>
                                                     <td class="px-4 py-3 whitespace-nowrap">
