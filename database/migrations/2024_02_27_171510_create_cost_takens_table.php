@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('cost_takens', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('date')->default(now());
+            $table->date('date')->default(DB::raw('CURRENT_DATE'));
             $table->double('amount');
             $table->double('form');
             $table->double('code');
+            $table->foreignId('client_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('payment_method_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

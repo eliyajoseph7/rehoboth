@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\Reports\MonthlyReportController;
+use App\Livewire\Pages\Allowance\Allowances;
 use App\Livewire\Pages\CostTaken\Taken;
 use App\Livewire\Pages\Dashboard\Dashboard;
 use App\Livewire\Pages\Expenditure\Expenditures;
+use App\Livewire\Pages\Report\MonthlyReport;
 use App\Livewire\Pages\Return\Returns;
 use App\Livewire\Pages\Setting\Client\Clients;
 use App\Livewire\Pages\Setting\PaymentMethod\PaymentMethods;
+use App\Livewire\Pages\Setting\Support\ManageSupport;
 use App\Livewire\Pages\Support\Supports;
 use App\Livewire\Pages\Setting\User\Users;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +28,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('dashboard');
 });
+
+Route::get('generate-report', [MonthlyReportController::class, 'generate'])->name('generate_report');
 
 Route::get('dashboard', Dashboard::class)
     ->middleware(['auth', 'verified'])
@@ -47,12 +53,27 @@ Route::middleware('auth')->group(function () {
         Route::get('', Expenditures::class)->name('expenditures');
     });
 
+    // supports
+    Route::prefix('supports')->group(function () {
+        Route::get('', Supports::class)->name('supports');
+    });
+
+    // allowances
+    Route::prefix('staff-allowances')->group(function () {
+        Route::get('', Allowances::class)->name('allowances');
+    });
+
+    // reports
+    Route::prefix('reports')->group(function () {
+        Route::get('monthly-report', MonthlyReport::class)->name('monthly_report');
+    })->name('reports');
+
     // settings
 
     Route::prefix('settings')->group(function () {
         // supports
-        Route::prefix('supports')->group(function () {
-            Route::get('', Supports::class)->name('supports');
+        Route::prefix('manage-supports')->group(function () {
+            Route::get('', ManageSupport::class)->name('manage_supports');
         });
 
         // clients

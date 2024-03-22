@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class SupportCategory extends Model
 {
     use HasFactory;
+
+    public function scopeSearch($qs, $keyword) {
+        $qs->where('name', 'like', '%'.$keyword.'%');
+    }
 }

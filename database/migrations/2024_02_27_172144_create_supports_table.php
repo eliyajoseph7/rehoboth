@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('supports', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('date')->default(now());
+            $table->date('date')->default(DB::raw('CURRENT_DATE'));
             $table->double('amount');
             $table->foreignId('support_category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

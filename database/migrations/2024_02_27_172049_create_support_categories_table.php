@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
         });
         // insert some stuffs
-        DB::table('payment_methods')->insert(
+        DB::table('support_categories')->insert(
             array(
                 [
                     'name' => 'Support In'

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
+
+    public function scopeSearch($qs, $keyword) {
+        $qs->where('name', 'like', '%'.$keyword.'%')
+            ->orWhere('phone', 'like', '%'.$keyword.'%')
+            ->orWhere('location', 'like', '%'.$keyword.'%');
+    }
 }
