@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Report;
 
 use App\Exports\MonthlyReportExport;
+use App\Http\Controllers\Reports\MonthlyReportController;
 use App\Models\CostTaken;
 use App\Models\MonthlyReport as ModelsMonthlyReport;
 use DateTime;
@@ -25,6 +26,7 @@ class MonthlyReport extends Component
     public $nextCount = 0;
     // public $total_days;
     public $toNext = False;
+    public $totals = [];
 
     public function previous()
     {
@@ -46,7 +48,6 @@ class MonthlyReport extends Component
 
     public function fetchReport()
     {
-
         $this->data = ModelsMonthlyReport::whereMonth('date', $this->date->format('m'))->whereYear('date', $this->date->format('Y'))->get();
         $diff = strtotime(now()) - strtotime(now() . ' -' . $this->previousCount . ' month');
         if ($diff == 0) {
@@ -54,7 +55,10 @@ class MonthlyReport extends Component
         } else {
             $this->toNext = True;
         }
+        $this->totals = (new MonthlyReportController)->fetchTotals($this->date->format('m'), $this->date->format('Y'));
     }
+
+
 
     public function mount()
     {

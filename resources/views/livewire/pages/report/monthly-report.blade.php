@@ -13,7 +13,7 @@
                     <div
                         class="bg-white shadow-sm mb-2 min-h-10 px-2.5 py-2 rounded-t-lg grid md:grid-flow-col grid-cols-1 md:grid-cols-3">
                         <div class="flex justify-center md:justify-start">
-                            <button wire:click="previous"
+                            <button wire:click.prevent="previous"
                                 class="w-full md:w-1/4 flex justify-center space-x-1 px-2 items-center hover:bg-red-50 bg-gray-100 py-0.5 rounded-lg hover:shadow-sm hover:text-gray-600 font-bold">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -26,7 +26,7 @@
                         <div class="text-center text-3xl font-bold text-gray-700">{{ $date->format('F Y') }}</div>
                         <div class="flex justify-center md:justify-end">
                             @if ($toNext)
-                                <button wire:click="next"
+                                <button wire:click.prevent="next"
                                     class="w-full md:w-1/4 flex justify-center space-x-1 px-2 items-center hover:bg-red-50 bg-gray-100 py-0.5 rounded-lg hover:shadow-sm hover:text-gray-600 font-bold">
                                     <span>Next</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -44,7 +44,7 @@
                         <div
                             class="min-h-[20vh] dark:bg-gray-800 overflow-hidden sm:rounded-lg items-center w-full float-right">
 
-                            <div class="bg-white shadow-lg border-t-2 border-gray-100 rounded-lg px-2 py-3">
+                            <div class="bg-white shadow-sm border-t-2 border-gray-100 rounded-lg px-2 py-3">
                                 <div class="flex items-center justify-end d p-4 dark:bg-gray-700">
                                     <div class="flex">
                                         {{-- <div class="relative w-full">
@@ -53,9 +53,13 @@
                                                 placeholder="Search" required="">
                                         </div> --}}
                                         @if (count($data) > 0)
-                                            <button wire:click="export" class="flex space-x-1 items-center text-green-500 bg-gray-50 hover:bg-grey-100 hover:text-green-700 px-3 py-0.5 rounded-md">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                            <button wire:click="export"
+                                                class="flex space-x-1 items-center text-green-500 bg-gray-50 hover:bg-grey-100 hover:text-green-700 px-3 py-0.5 rounded-md">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                                 </svg>
                                                 <span>Export Excel</span>
                                             </button>
@@ -68,7 +72,7 @@
                                         <thead
                                             class="text-xs text-gray-700 dark:text-gray-100 uppercase bg-gray-100 dark:bg-gray-800">
                                             <tr>
-                                                <th scope="col" class="px-4 py-3 w-[50px]">S/No.</th>
+                                                <th scope="col" class="px-4 py-3 w-[60px]">S/No.</th>
                                                 <th scope="col" class="px-4 py-3 w-[100px] normal-case">Day</th>
                                                 <th scope="col" class="px-4 py-3 text-wrap normal-case">Gawa</th>
                                                 <th scope="col" class="px-4 py-3 text-wrap normal-case">Form</th>
@@ -138,7 +142,36 @@
                                                     </td>
                                                 </tr>
                                             @endforelse
-
+                                            @if (count($data) > 0)
+                                                @foreach ($totals as $total)
+                                                    <thead
+                                                        class="text-xs text-gray-700 dark:text-gray-100 uppercase bg-gray-100 dark:bg-gray-800">
+                                                        <tr>
+                                                            <th colspan="2" class="px-4">Total</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->gawa) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->form) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->mauzo_cash) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->mauzo_mpesa) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->allowance) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->mtaji_mpesa) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->expenditure_cash) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->expenditure_mpesa) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->support_in) }}</th>
+                                                            <th class="text-right py-2 px-4 whitespace-nowrap">
+                                                                {{ number_format($total->support_out) }}</th>
+                                                        </tr>
+                                                    </thead>
+                                                @endforeach ($totals)
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\Reports\MonthlyReportController;
 use App\Models\MonthlyReport;
 use DateTime;
 use Illuminate\Contracts\View\View;
@@ -30,7 +31,8 @@ class MonthlyReportExport implements FromView
     {
         return view('exports.reports.moothly_report', [
             'data' => MonthlyReport::whereMonth('date', $this->month)->whereYear('date', $this->year)->get(),
-            'date' => new DateTime(date('Y-m', strtotime($this->year. '-'. $this->month)))
+            'date' => new DateTime(date('Y-m', strtotime($this->year. '-'. $this->month))),
+            'totals' => (new MonthlyReportController)->fetchTotals($this->month, $this->year)
         ]);
     }
 }

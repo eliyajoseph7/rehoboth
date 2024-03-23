@@ -1,7 +1,9 @@
 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 dark:bg-gray-700">
     <thead class="text-xs text-gray-700 dark:text-gray-100 uppercase bg-gray-100 dark:bg-gray-800">
         <tr>
-            <th colspan="12" rowspan="2" style="text-transform: uppercase; text-align: center; font-size: 20; font-weight: bold;">REHOBOTH MONTHLY REPORT {{ $date->format('F Y') }}</th>
+            <th colspan="12" rowspan="2"
+                style="text-transform: uppercase; text-align: center; font-size: 20; font-weight: bold;">REHOBOTH MONTHLY
+                REPORT {{ $date->format('F Y') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -62,4 +64,38 @@
         @endforeach
 
     </tbody>
+    {{-- @php
+        use \App\Http\Controllers\Reports\MonthlyReportController; 
+        $totals = MonthlyReportController::fetchTotals($date->format('m'), $date->format('Y'));
+    @endphp --}}
+        @if (count($data) > 0)
+            @foreach ($totals as $total)
+                <tfoot>
+                    <tr>
+                        <th colspan="2" style="font-weight: 500;">Total</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->gawa) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->form) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->mauzo_cash) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->mauzo_mpesa) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->allowance) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->mtaji_mpesa) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->expenditure_cash) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->expenditure_mpesa) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->support_in) }}</th>
+                        <th style="font-weight: 500;">
+                            {{ number_format($total->support_out) }}</th>
+                    </tr>
+                </tfoot>
+                
+            @endforeach ($totals)
+        @endif
 </table>

@@ -35,13 +35,13 @@ class MonthlyReportController extends Controller
             if ($exist) {
                 $exist->gawa = $taken->amount;
                 $exist->form = $taken->form;
-                $exist->mtaji_mpesa = $taken->mtaji_mpesa;
+                $exist->mtaji_mpesa = $taken->mtaji_mpesa ?? 0;
                 $exist->save();
             } else {
                 $report->date = $taken->date;
                 $report->gawa = $taken->amount;
                 $report->form = $taken->form;
-                $report->mtaji_mpesa = $taken->mtaji_mpesa;
+                $report->mtaji_mpesa = $taken->mtaji_mpesa ?? 0;
                 $report->save();
             }
         }
@@ -57,13 +57,13 @@ class MonthlyReportController extends Controller
         foreach ($returns as $return) {
             $exist = MonthlyReport::where('date', $return->date)->first();
             if ($exist) {
-                $exist->mauzo_mpesa = $return->mauzo_mpesa;
-                $exist->mauzo_cash = $return->mauzo_cash;
+                $exist->mauzo_mpesa = $return->mauzo_mpesa ?? 0;
+                $exist->mauzo_cash = $return->mauzo_cash ?? 0;
                 $exist->save();
             } else {
                 $report->date = $taken->date;
-                $report->mauzo_mpesa = $return->mauzo_mpesa;
-                $report->mauzo_cash = $return->mauzo_cash;
+                $report->mauzo_mpesa = $return->mauzo_mpesa ?? 0;
+                $report->mauzo_cash = $return->mauzo_cash ?? 0;
                 $report->save();
             }
         }
@@ -98,13 +98,13 @@ class MonthlyReportController extends Controller
         foreach ($expenditures as $expenditure) {
             $exist = MonthlyReport::where('date', $expenditure->date)->first();
             if ($exist) {
-                $exist->expenditure_mpesa = $expenditure->expenditure_mpesa;
-                $exist->expenditure_cash = $expenditure->expenditure_cash;
+                $exist->expenditure_mpesa = $expenditure->expenditure_mpesa ?? 0;
+                $exist->expenditure_cash = $expenditure->expenditure_cash ?? 0;
                 $exist->save();
             } else {
                 $report->date = $taken->date;
-                $report->expenditure_mpesa = $expenditure->expenditure_mpesa;
-                $report->expenditure_cash = $expenditure->expenditure_cash;
+                $report->expenditure_mpesa = $expenditure->expenditure_mpesa ?? 0;
+                $report->expenditure_cash = $expenditure->expenditure_cash ?? 0;
                 $report->save();
             }
         }
@@ -121,13 +121,13 @@ class MonthlyReportController extends Controller
         foreach ($supports as $support) {
             $exist = MonthlyReport::where('date', $support->date)->first();
             if ($exist) {
-                $exist->support_out = $support->support_out;
-                $exist->support_in = $support->support_in;
+                $exist->support_out = $support->support_out ?? 0;
+                $exist->support_in = $support->support_in ?? 0;
                 $exist->save();
             } else {
                 $report->date = $taken->date;
-                $report->support_out = $support->support_out;
-                $report->support_in = $support->support_in;
+                $report->support_out = $support->support_out ?? 0;
+                $report->support_in = $support->support_in ?? 0;
                 $report->save();
             }
         }
@@ -143,5 +143,24 @@ class MonthlyReportController extends Controller
 
         }
         return;
+    }
+    public function fetchTotals($month, $year)
+    {
+        $totals = MonthlyReport::whereMonth('date', $month)->whereYear('date', $year)
+            ->select(
+                DB::raw('SUM(gawa) as gawa'),
+                DB::raw('SUM(form) as form'),
+                DB::raw('SUM(mauzo_cash) as mauzo_cash'),
+                DB::raw('SUM(mauzo_mpesa) as mauzo_mpesa'),
+                DB::raw('SUM(allowance) as allowance'),
+                DB::raw('SUM(mtaji_mpesa) as mtaji_mpesa'),
+                DB::raw('SUM(expenditure_cash) as expenditure_cash'),
+                DB::raw('SUM(expenditure_mpesa) as expenditure_mpesa'),
+                DB::raw('SUM(support_in) as support_in'),
+                DB::raw('SUM(support_out) as support_out')
+            )
+            ->get();
+
+        return $totals;
     }
 }
