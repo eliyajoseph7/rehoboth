@@ -2,11 +2,14 @@
 
 namespace App\Livewire\Pages\Report;
 
+use App\Exports\MonthlyReportExport;
 use App\Models\CostTaken;
 use App\Models\MonthlyReport as ModelsMonthlyReport;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MonthlyReport extends Component
 {
@@ -15,23 +18,58 @@ class MonthlyReport extends Component
     public $perPage = 10;
     public $sortBy = 'created_at';
     public $sortDir = 'DESC';
+    public $data = [];
 
+    public $date;
+    public $previousCount = 0;
+    public $nextCount = 0;
+    // public $total_days;
+    public $toNext = False;
 
-
-    public function updatedSearch()
+    public function previous()
     {
-        $this->resetPage();
+        $this->previousCount += 1;
+        $prev = date('Y-m-d', strtotime(now() . ' -' . $this->previousCount . ' month'));
+        $this->date = new DateTime($prev);
+
+        $this->fetchReport();
     }
 
-    public function sortColumn($name)
+    public function next()
     {
-        if ($this->sortBy == $name) {
-            $this->sortDir = ($this->sortDir == 'ASC') ? 'DESC' : 'ASC';
-            return;
+        $this->previousCount -= 1;
+        $prev = date('Y-m-d', strtotime(now() . ' -' . $this->previousCount . ' month'));
+        $this->date = new DateTime($prev);
+
+        $this->fetchReport();
+    }
+
+    public function fetchReport()
+    {
+
+        $this->data = ModelsMonthlyReport::whereMonth('date', $this->date->format('m'))->whereYear('date', $this->date->format('Y'))->get();
+        $diff = strtotime(now()) - strtotime(now() . ' -' . $this->previousCount . ' month');
+        if ($diff == 0) {
+            $this->toNext = False;
+        } else {
+            $this->toNext = True;
         }
-        $this->sortBy = $name;
-        $this->sortDir = 'DESC';
     }
+
+    public function mount()
+    {
+        $this->date = now();
+        // $this->total_days = cal_days_in_month(CAL_GREGORIAN, $this->date->format('m'), $this->date->format('Y'));
+        $this->fetchReport();
+    }
+
+
+    public function export()
+    {
+        // return Excel::download(new MonthlyReportExport, 'rehoboth_monthly_report.xlsx');
+        return (new MonthlyReportExport)->forYear($this->date->format('Y'))->forMonth($this->date->format('m'))->download('rehoboth_monthly_report.xlsx');
+    }
+
     public function render()
     {
         // $data = CostTaken::leftjoin('cost_returns as a', 'a.client_id', '=', 'cost_takens.client_id')
@@ -45,7 +83,6 @@ class MonthlyReport extends Component
         //         // DB::raw('SUM(a.amount) as sale')
         //     )->groupBy('cost_takens.date')->orderBy('cost_takens.date', 'ASC')->get();
 
-        $data = ModelsMonthlyReport::get();
-        return view('livewire.pages.report.monthly-report', compact('data'));
+        return view('livewire.pages.report.monthly-report');
     }
 }

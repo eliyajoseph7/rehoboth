@@ -40,7 +40,7 @@
 
 <body class="font-sans antialiased w-screen overflow-x-hidden">
     <div
-        class="relative min-h-screen bg-dots-darker bg-center bg-gray-200 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white overflow-x-hidden bg-[url('https://i.pinimg.com/originals/85/6f/31/856f31d9f475501c7552c97dbe727319.jpg')] bg-cover bg-blend-overlay">
+        class="relative min-h-screen bg-dots-darker bg-center bg-gray-200 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white overflow-x-hidden bg-[url('../images/bg.jpg')] bg-cover bg-blend-overlay">
         <livewire:layout.navigation />
 
         @include('livewire.layout.sidenav')
