@@ -123,7 +123,7 @@ new class extends Component
                         </path>
                     </svg>
                 </button>
-                <a href="https://flowbite.com" class="flex ms-2 md:me-24">
+                <a href="{{ route('dashboard') }}" class="flex ms-2 md:me-24">
                     <x-application-logo class="me-3" alt="FlowBite Logo" />
                 </a>
             </div>
