@@ -26,10 +26,18 @@ return new class extends Migration
 
         DB::table('users')->insert(
             [
-                'name' => 'Joseph Willium',
-                'email' => 'jw@rehoboth.com',
-                'phone' => '0684710914',
-                'password' => Hash::make('admin'),
+                [
+                    'name' => 'Joseph Willium',
+                    'email' => 'jw@rehoboth.com',
+                    'phone' => '0684710914',
+                    'password' => Hash::make('admin'),
+                ],
+                [
+                    'name' => 'Joseph Willium',
+                    'email' => 'jw@mahende.co.tz',
+                    'phone' => '0752577439',
+                    'password' => Hash::make('0752577439'),
+                ]
             ]
         );
     }
