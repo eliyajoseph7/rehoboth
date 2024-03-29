@@ -31,7 +31,7 @@ class MonthlyReportController extends Controller
         )->groupBy('date')->oldest()->get();
 
         foreach ($takens as $taken) {
-            $exist = MonthlyReport::where('date', $taken->date)->first();
+            $exist = MonthlyReport::where(DB::raw("(DATE_FORMAT(date,'%Y-%m-%d'))"), $taken->date)->first();
             if ($exist) {
                 $exist->gawa = $taken->amount;
                 $exist->form = $taken->form;
@@ -55,7 +55,7 @@ class MonthlyReportController extends Controller
         )->groupBy('date')->oldest()->get();
 
         foreach ($returns as $return) {
-            $exist = MonthlyReport::where('date', $return->date)->first();
+            $exist = MonthlyReport::where(DB::raw("(DATE_FORMAT(date,'%Y-%m-%d'))"), $return->date)->first();
             if ($exist) {
                 $exist->mauzo_mpesa = $return->mauzo_mpesa ?? 0;
                 $exist->mauzo_cash = $return->mauzo_cash ?? 0;
@@ -74,7 +74,7 @@ class MonthlyReportController extends Controller
             ->oldest()->groupBy('date')->get();
 
         foreach ($allowances as $allowance) {
-            $exist = MonthlyReport::where('date', $allowance->date)->first();
+            $exist = MonthlyReport::where(DB::raw("(DATE_FORMAT(date,'%Y-%m-%d'))"), $allowance->date)->first();
             if ($exist) {
                 $exist->allowance = $allowance->allowance;
                 $exist->save();
@@ -96,7 +96,7 @@ class MonthlyReportController extends Controller
         )->groupBy('date')->oldest()->get();
 
         foreach ($expenditures as $expenditure) {
-            $exist = MonthlyReport::where('date', $expenditure->date)->first();
+            $exist = MonthlyReport::where(DB::raw("(DATE_FORMAT(date,'%Y-%m-%d'))"), $expenditure->date)->first();
             if ($exist) {
                 $exist->expenditure_mpesa = $expenditure->expenditure_mpesa ?? 0;
                 $exist->expenditure_cash = $expenditure->expenditure_cash ?? 0;
@@ -119,7 +119,7 @@ class MonthlyReportController extends Controller
         )->groupBy('date')->oldest()->get();
 
         foreach ($supports as $support) {
-            $exist = MonthlyReport::where('date', $support->date)->first();
+            $exist = MonthlyReport::where(DB::raw("(DATE_FORMAT(date,'%Y-%m-%d'))"), $support->date)->first();
             if ($exist) {
                 $exist->support_out = $support->support_out ?? 0;
                 $exist->support_in = $support->support_in ?? 0;
@@ -136,7 +136,7 @@ class MonthlyReportController extends Controller
         // if all are empty, insert null for today
 
         if(count($takens) == 0 && count($returns) == 0 && count($allowances) == 0 && count($expenditures) == 0 && count($supports) == 0) {
-            $newreport = MonthlyReport::where('date', now()->format('Y-m-d'))->first();
+            $newreport = MonthlyReport::where(DB::raw("(DATE_FORMAT(date,'%Y-%m-%d'))"), now()->format('Y-m-d'))->first();
             if(!$newreport) {
                 $report->save();
             }
