@@ -7,6 +7,7 @@ use App\Http\Controllers\Reports\MonthlyReportController;
 use App\Models\CostTaken;
 use App\Models\MonthlyReport as ModelsMonthlyReport;
 use DateTime;
+use DateTimeZone;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -62,7 +63,8 @@ class MonthlyReport extends Component
 
     public function mount()
     {
-        $this->date = now();
+        $date = new DateTime("now", new DateTimeZone('Africa/Dar_es_Salaam'));
+        $this->date = $date;
         // $this->total_days = cal_days_in_month(CAL_GREGORIAN, $this->date->format('m'), $this->date->format('Y'));
         $this->fetchReport();
     }
