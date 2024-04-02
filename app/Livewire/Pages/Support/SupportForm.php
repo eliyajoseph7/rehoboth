@@ -17,8 +17,8 @@ class SupportForm extends ModalComponent
     #[Rule('required')]
     public $amount;
     
-    // #[Rule('required')]
-    // public $date;
+    #[Rule('required')]
+    public $date;
 
 
     #[Rule('required', as: 'Payment method')]
@@ -44,7 +44,7 @@ class SupportForm extends ModalComponent
         $this->validate();
 
         $qs = new Support;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->amount = $this->amount;
         $qs->support_category_id = $this->support_category_id;
         $qs->user_id = auth()->user()->id;
@@ -62,6 +62,7 @@ class SupportForm extends ModalComponent
         $this->action = 'update';
         $qs = Support::find($id);
         $this->id = $id;
+        $this->date = $qs->date;
         $this->amount = $qs->amount;
         $this->support_category_id = $qs->support_category_id;
         $this->dispatch('update_support_category_id_field', $qs->support_category_id);
@@ -74,7 +75,7 @@ class SupportForm extends ModalComponent
 
         $qs = Support::find($this->id);
         $qs->amount = $this->amount;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->support_category_id = $this->support_category_id;
 
 

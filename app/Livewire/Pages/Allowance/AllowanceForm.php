@@ -17,8 +17,8 @@ class AllowanceForm extends ModalComponent
     #[Rule('required')]
     public $amount;
     
-    // #[Rule('required')]
-    // public $date;
+    #[Rule('required')]
+    public $date;
 
 
     #[Rule('required', as: 'Staff')]
@@ -44,7 +44,7 @@ class AllowanceForm extends ModalComponent
         $this->validate();
 
         $qs = new StaffAllowance;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->amount = $this->amount;
         $qs->staff_id = $this->staff_id;
         $qs->user_id = auth()->user()->id;
@@ -62,6 +62,7 @@ class AllowanceForm extends ModalComponent
         $this->action = 'update';
         $qs = StaffAllowance::find($id);
         $this->id = $id;
+        $this->date = $qs->date;
         $this->amount = $qs->amount;
         $this->staff_id = $qs->staff_id;
         $this->dispatch('update_staff_id_field', $qs->staff_id);
@@ -74,7 +75,7 @@ class AllowanceForm extends ModalComponent
 
         $qs = StaffAllowance::find($this->id);
         $qs->amount = $this->amount;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->staff_id = $this->staff_id;
 
 

@@ -18,8 +18,8 @@ class ReturnForm extends ModalComponent
     #[Rule('required')]
     public $amount;
     
-    // #[Rule('required')]
-    // public $date;
+    #[Rule('required')]
+    public $date;
 
     #[Rule('required', as: 'Client')]
     public $client_id;
@@ -53,7 +53,7 @@ class ReturnForm extends ModalComponent
         $this->validate();
 
         $qs = new CostReturn;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->amount = $this->amount;
         $qs->client_id = $this->client_id;
         $qs->payment_method_id = $this->payment_method_id;
@@ -72,6 +72,7 @@ class ReturnForm extends ModalComponent
         $this->action = 'update';
         $qs = CostReturn::find($id);
         $this->id = $id;
+        $this->date = $qs->date;
         $this->amount = $qs->amount;
         $this->client_id = $qs->client_id;
         $this->payment_method_id = $qs->payment_method_id;
@@ -86,7 +87,7 @@ class ReturnForm extends ModalComponent
 
         $qs = CostReturn::find($this->id);
         $qs->amount = $this->amount;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->client_id = $this->client_id;
         $qs->payment_method_id = $this->payment_method_id;
 

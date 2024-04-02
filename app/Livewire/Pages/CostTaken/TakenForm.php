@@ -21,8 +21,8 @@ class TakenForm extends ModalComponent
     public $form;
     #[Rule('required')]
     public $code;
-    // #[Rule('required')]
-    // public $date;
+    #[Rule('required')]
+    public $date;
 
     #[Rule('required', as: 'Client')]
     public $client_id;
@@ -48,7 +48,7 @@ class TakenForm extends ModalComponent
 
     public static function modalMaxWidth(): string
     {
-        return '3xl';
+        return '4xl';
     }
 
     public function addCostTaken()
@@ -56,7 +56,7 @@ class TakenForm extends ModalComponent
         $this->validate();
 
         $qs = new CostTaken;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->amount = $this->amount;
         $qs->code = $this->code;
         $qs->form = $this->form;
@@ -78,6 +78,7 @@ class TakenForm extends ModalComponent
         $qs = CostTaken::find($id);
         $this->id = $id;
         $this->amount = $qs->amount;
+        $this->date = $qs->date;
         $this->code = $qs->code;
         $this->form = $qs->form;
         $this->client_id = $qs->client_id;
@@ -95,7 +96,7 @@ class TakenForm extends ModalComponent
         $qs->amount = $this->amount;
         $qs->code = $this->code;
         $qs->form = $this->form;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->client_id = $this->client_id;
         $qs->payment_method_id = $this->payment_method_id;
 

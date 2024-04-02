@@ -17,8 +17,8 @@ class ExpenditureForm extends ModalComponent
     #[Rule('required')]
     public $amount;
     
-    // #[Rule('required')]
-    // public $date;
+    #[Rule('required')]
+    public $date;
 
 
     #[Rule('required', as: 'Payment method')]
@@ -44,7 +44,7 @@ class ExpenditureForm extends ModalComponent
         $this->validate();
 
         $qs = new Expenditure;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->amount = $this->amount;
         $qs->payment_method_id = $this->payment_method_id;
         $qs->user_id = auth()->user()->id;
@@ -62,6 +62,7 @@ class ExpenditureForm extends ModalComponent
         $this->action = 'update';
         $qs = Expenditure::find($id);
         $this->id = $id;
+        $this->date = $qs->date;
         $this->amount = $qs->amount;
         $this->payment_method_id = $qs->payment_method_id;
         $this->dispatch('update_payment_method_id_field', $qs->payment_method_id);
@@ -74,7 +75,7 @@ class ExpenditureForm extends ModalComponent
 
         $qs = Expenditure::find($this->id);
         $qs->amount = $this->amount;
-        // $qs->date = $this->date;
+        $qs->date = $this->date;
         $qs->payment_method_id = $this->payment_method_id;
 
 
