@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('monthly:report')->lastDayOfMonth('23:00');
-        $schedule->command('daily:report')->dailyAt('20:28');
+        $schedule->command('daily:report')->dailyAt('20:33');
     }
 
     /**
