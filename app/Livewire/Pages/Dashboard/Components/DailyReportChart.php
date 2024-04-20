@@ -22,16 +22,16 @@ class DailyReportChart extends Component
         $series = [
             'name' => 'Daily Report',
             'data' => [
-                doubleval($report->gawa), 
-                doubleval($report->form), 
-                doubleval($report->mauzo_cash), 
-                doubleval($report->mauzo_mpesa),
-                doubleval($report->allowance), 
-                doubleval($report->mtaji_mpesa), 
-                doubleval($report->expenditure_cash), 
-                doubleval($report->expenditure_cash),
-                doubleval($report->support_in), 
-                doubleval($report->support_out),
+                doubleval($report->gawa ?? 0), 
+                doubleval($report->form ?? 0), 
+                doubleval($report->mauzo_cash ?? 0), 
+                doubleval($report->mauzo_mpesa ?? 0),
+                doubleval($report->allowance ?? 0), 
+                doubleval($report->mtaji_mpesa ?? 0), 
+                doubleval($report->expenditure_cash ?? 0), 
+                doubleval($report->expenditure_cash ?? 0),
+                doubleval($report->support_in ?? 0), 
+                doubleval($report->support_out ?? 0),
             ]
         ];
 

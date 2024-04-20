@@ -23,16 +23,16 @@ class DailyReportList extends Component
     public function updateTotal()
     {
 
-        $this->total = doubleval($this->report->gawa) +
-            doubleval($this->report->form) +
-            doubleval($this->report->mauzo_cash) +
-            doubleval($this->report->mauzo_mpesa) +
-            doubleval($this->report->allowance) +
-            doubleval($this->report->mtaji_mpesa) +
-            doubleval($this->report->expenditure_cash) +
-            doubleval($this->report->expenditure_cash) +
-            doubleval($this->report->support_in) +
-            doubleval($this->report->support_out);
+        $this->total = doubleval($this->report->gawa ?? 0) +
+            doubleval($this->report->form ?? 0) +
+            doubleval($this->report->mauzo_cash ?? 0) +
+            doubleval($this->report->mauzo_mpesa ?? 0) +
+            doubleval($this->report->allowance ?? 0) +
+            doubleval($this->report->mtaji_mpesa ?? 0) +
+            doubleval($this->report->expenditure_cash ?? 0) +
+            doubleval($this->report->expenditure_cash ?? 0) +
+            doubleval($this->report->support_in ?? 0) +
+            doubleval($this->report->support_out ?? 0);
     }
 
     public function mount()
