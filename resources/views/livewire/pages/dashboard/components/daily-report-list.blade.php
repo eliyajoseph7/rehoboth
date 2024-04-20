@@ -1,5 +1,5 @@
 <div>
-    <div class=" bg-white shadow-sm py-4 border-t-2 border-gray-100 rounded-md">
+    <div class=" bg-white shadow-sm py-4 border-t-2 border-gray-100 rounded-md relative">
         <div class="mb-4 px-4 [&>*:nth-child(even)]:bg-[#F6F9FF] [&>*:nth-child(even)]:dark:bg-gray-600">
             <div class="grid grid-cols-2 gap-4 py-1">
                 <div class="font-bold text-gray-600">Gawa</div>
@@ -44,6 +44,11 @@
             <div class="grid grid-cols-2 gap-4 py-1 bg-gray-200">
                 <div class="font-bold text-gray-700 text-lg">Total</div>
                 <div class="font-bold text-lg">{{ number_format($total, 2) }}</div>
+            </div>
+        </div>
+        <div class="{{ $fetching_report ? 'absolute top-0 left-0 right-0 bottom-0 h-full text-center items-center bg-gray-700/20 rounded-lg' : 'hidden' }}">
+            <div class="x-8 py-4 rounded-lg mt-28">
+                <i class="fa fa-spinner fa-spin text-7xl"></i>
             </div>
         </div>
     </div>

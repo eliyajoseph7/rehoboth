@@ -12,12 +12,16 @@ class DailyReportList extends Component
 {
     public $report;
     public $total = 0;
+    public $fetching_report = false;
 
     #[On('fetch_report')]
     public function fetchReport($day, $month, $year)
     {
+
+        $this->fetching_report = true;
         $this->report = DailyReport::whereDay('date', $day)->whereMonth('date', $month)->whereYear('date', $year)->first();
         $this->updateTotal();
+        $this->fetching_report = false;
     }
 
     public function updateTotal()

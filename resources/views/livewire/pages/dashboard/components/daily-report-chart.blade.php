@@ -1,8 +1,13 @@
 <div class="">
-    <div>
+    <div class="relative">
         <div wire:ignore class="bg-white shadow-md rounded-lg hover:-translate-y-1 duration-700 ease-in-out">
             <div class="max-h-[40vh]">
                 <div class="dailyReport h-[90%]"></div>
+            </div>
+        </div>
+        <div class="{{ $fetching_chart ? 'absolute top-0 left-0 right-0 bottom-0 h-full text-center items-center bg-gray-700/20 rounded-lg' : 'hidden' }}">
+            <div class="x-8 py-4 rounded-lg mt-28">
+                <i class="fa fa-spinner fa-spin text-7xl"></i>
             </div>
         </div>
 

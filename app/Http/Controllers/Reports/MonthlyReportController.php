@@ -9,6 +9,7 @@ use App\Models\Expenditure;
 use App\Models\MonthlyReport;
 use App\Models\StaffAllowance;
 use App\Models\Support;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +23,10 @@ class MonthlyReportController extends Controller
         $total_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         for($i = 1; $i <= $total_days; $i++) {
             $day = $i;
+            $date = new DateTime($year . '-' . $month . '-' . $day);
             $report = new MonthlyReport;
+            $report->date = $date;
+            $report->save();
             //============== cost taken ================
             $takens = CostTaken::whereDay('date', $day)->whereMonth('date', $month)->whereYear('date', $year)->select(
                 'date',

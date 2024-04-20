@@ -13,10 +13,12 @@ class DailyReportChart extends Component
     public $categories = ['Gawa', 'Form', 'Mauzo Cash', 'Mauzo Mpesa', 'Posho', 'Mtaji Mpesa', 'Matumizi Cash', 'Matumizi Mpesa', 'Support In', 'Support Out'];
 
     public $date;
+    public $fetching_chart = false;
 
     #[On('fetch_report')]
     public function getDailyReportChart($day, $month, $year)
     {
+        $this->fetching_chart = true;
         $report = DailyReport::whereDay('date', $day)->whereMonth('date', $month)->whereYear('date', $year)->first();
         // dump($report);
         $series = [
@@ -36,6 +38,7 @@ class DailyReportChart extends Component
         ];
 
         $this->dispatch('redraw_chart', $series);
+        $this->fetching_chart = false;
     }
 
 
