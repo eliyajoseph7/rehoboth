@@ -60,6 +60,8 @@
         </div>
     </div>
 </body>
+{{-- Highchart --}}
+<script src="https://code.highcharts.com/highcharts.js"></script>
 
 <script data-navigate-once>
     const Toast = Swal.mixin({
