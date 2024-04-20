@@ -19,15 +19,15 @@ class DailyReportController extends Controller
     {
         $year = now()->format('Y');
         $month = now()->format('m');
-        // $day = now()->format('d');
-        $total_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-        for($i = 1; $i <= $total_days; $i++) {
-            $date = new DateTime($year . '-' . $month . '-' . $i);
+        $day = now()->format('d');
+        // $total_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        // for($i = 1; $i <= $total_days; $i++) {
+            $date = new DateTime($year . '-' . $month . '-' . $day);
             $report = new DailyReport;
             $report->date = $date;
             $report->save();
 
-            $day = $i;
+            // $day = $i;
             //============== cost taken ================
             $takens = CostTaken::whereDay('date', $day)->whereMonth('date', $month)->whereYear('date', $year)->select(
                 'date',
@@ -148,7 +148,7 @@ class DailyReportController extends Controller
                 }
     
             }
-        }
+        // }
 
         return;
     }
